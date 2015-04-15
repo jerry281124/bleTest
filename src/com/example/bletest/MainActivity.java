@@ -41,7 +41,7 @@ public class MainActivity extends ActionBarActivity {
 		
 		picker.setMaxValue(60); 
 		picker.setMinValue(0);
-		picker.setValue(1);
+		picker.setValue(10);
 		
 		callAlarm.setOnClickListener(new Button.OnClickListener() {
 
