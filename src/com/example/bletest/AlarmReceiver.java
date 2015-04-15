@@ -18,7 +18,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 	{
 		
 		if(intent.getAction().equalsIgnoreCase("Repeat"));
-			Toast.makeText(context, "該換點滴架了", Toast.LENGTH_SHORT).show();
+			Toast.makeText(context, "該換點滴架了！", Toast.LENGTH_SHORT).show();
 			/*mVibrator= (Vibrator) mContext.getSystemService(Service.VIBRATOR_SERVICE);
 			mVibrator.vibrate(1000);*/
 	}
