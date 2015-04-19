@@ -1,6 +1,15 @@
 package com.example.bletest;
 
 
+import com.example.bletest.R.color;
+
+import android.R.string;
+import android.app.ActionBar;
+import android.app.ActionBar.TabListener;
+import android.app.Activity;
+import android.app.FragmentTransaction;
+import android.app.ActionBar.Tab;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -8,8 +17,13 @@ import android.support.v4.app.ListFragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -18,23 +32,32 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
-public class SecondActivity extends FragmentActivity {
-	static final int NUM_ITEMS = 10;
+public class SecondActivity extends ActionBarActivity {
+	static final int NUM_ITEMS = 4;
 
 	MyAdapter mAdapter;
-
+	ActionBar actionBar;
 	ViewPager mPager;
-
+	String[] tabs={"first","second","third"};
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.fragment_pager);
-
+		
 		mAdapter = new MyAdapter(getSupportFragmentManager());
 
 		mPager = (ViewPager) findViewById(R.id.pager);
 		mPager.setAdapter(mAdapter);
+		
+		//create Tab here
+		
 
+        // Adding Tabs
+        
+		/*SlidingTabLayout slidingTabLayout = (SlidingTabLayout)findViewById(R.id.sliding_tabs);
+		slidingTabLayout.setDistributeEvenly(true);
+		slidingTabLayout.setViewPager(mPager);*/
+		
 		// Watch for button clicks.
 		Button button = (Button) findViewById(R.id.goto_first);
 		button.setOnClickListener(new OnClickListener() {
@@ -48,9 +71,32 @@ public class SecondActivity extends FragmentActivity {
 				mPager.setCurrentItem(NUM_ITEMS - 1);
 			}
 		});
+		
 	}
-
+	
+	//add option menu
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		
+		getMenuInflater().inflate(R.menu.main, menu);
+		super.onCreateOptionsMenu(menu);
+		return true;
+	}
+	
+	@Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+		if(item.getItemId()==R.id.menu_connect)
+		{
+			Intent intent = new Intent();
+			intent.setClass(getApplicationContext(), com.example.bluetooth.le.DeviceScanActivity.class);
+			startActivity(intent);
+		}
+			
+		return true;
+	}
 	public static class MyAdapter extends FragmentStatePagerAdapter {
+		private String tabTitles[] = new String[] { "Tab1", "Tab2", "Tab3" };
 		public MyAdapter(FragmentManager fm) {
 			super(fm);
 		}
@@ -63,6 +109,11 @@ public class SecondActivity extends FragmentActivity {
 		@Override
 		public Fragment getItem(int position) {
 			return ArrayListFragment.newInstance(position);
+		}
+		@Override
+		public CharSequence getPageTitle(int position) {
+	        // Generate title based on item position
+	        return tabTitles[position];
 		}
 	}
 

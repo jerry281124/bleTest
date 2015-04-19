@@ -5,7 +5,7 @@
     android:versionName="1.0" >
 
     <uses-sdk
-        android:minSdkVersion="14"
+        android:minSdkVersion="18"
         android:targetSdkVersion="21" />
     <uses-permission android:name="android.permission.BLUETOOTH"/>
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
@@ -27,12 +27,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="DeviceScanActivity"
-                  android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
-        </activity>
-        <activity android:name="DeviceControlActivity"/>
-        <service android:name="BluetoothLeService" android:enabled="true"/>
-        <activity android:name="SecondActivity"></activity>
+        
+        
+        
+        <activity android:name="SecondActivity"
+            android:theme="@style/MyTheme"></activity>
+        <activity android:name="ThirdActivity"></activity>
         <activity android:name="com.elecfreaks.bleexample.MainActivity"></activity>
         <activity android:name="com.elecfreaks.bleexample.MyArray"></activity>
         <activity android:name="com.elecfreaks.bleexample.Protocal"></activity>
@@ -46,6 +46,8 @@
         <activity android:name="com.example.bluetooth.le.BluetoothLeService"></activity>
         <activity android:name="com.example.bluetooth.le.Log"></activity>
         <activity android:name="com.example.bluetooth.le.SampleGattAttributes"></activity>
+        
+        
         <receiver android:name="AlarmReceiver"></receiver>
     </application>
 

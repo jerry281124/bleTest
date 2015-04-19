@@ -7,6 +7,13 @@ import java.security.PublicKey;
 
 
 
+
+
+
+
+
+
+
 import android.support.v7.app.ActionBarActivity;
 import android.app.Activity;
 import android.app.AlarmManager;
@@ -15,14 +22,20 @@ import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.DragEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.DragShadowBuilder;
+import android.view.View.OnDragListener;
+import android.view.View.OnLongClickListener;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.Toast;
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends Activity {
 
 	Button bcallout, bsp, callAlarm,closeAlarm;
 	NumberPicker picker;
@@ -31,7 +44,7 @@ public class MainActivity extends ActionBarActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_first);
-		Toast.makeText(getApplicationContext(), "oncreate(1)", 100).show();
+		//Toast.makeText(getApplicationContext(), "oncreate(1)", Toast.LENGTH_SHORT).show();
 		bcallout = (Button) findViewById(R.id.button1);
 		bsp = (Button) findViewById(R.id.button2);
 		callAlarm = (Button) findViewById(R.id.button3);
@@ -95,6 +108,45 @@ public class MainActivity extends ActionBarActivity {
                 startActivity(callsecond);
 			}
 
+		});
+		//實現drag and drop //almost done (now have drag shadow)
+		bcallout.setOnLongClickListener(new OnLongClickListener() {
+			
+			@Override
+			public boolean onLongClick(View v) {
+				// TODO Auto-generated method stub
+				v.startDrag(null, new DragShadowBuilder(v), v, 0);
+				return true;
+			}
+		});
+		bcallout.setOnDragListener(new OnDragListener() {
+			
+			@Override
+			public boolean onDrag(View v, DragEvent event) {
+				// TODO Auto-generated method stub
+				View view = (View)event.getLocalState();
+				switch (event.getAction()) {
+				case DragEvent.ACTION_DRAG_STARTED: break;
+				case DragEvent.ACTION_DRAG_ENTERED: break;
+				case DragEvent.ACTION_DRAG_EXITED: break;
+				case DragEvent.ACTION_DROP:
+					ViewGroup viewGroup = (ViewGroup)view.getParent();
+					viewGroup.removeView(view);
+					LinearLayout container = (LinearLayout) v;
+					container.addView(view);
+					view.setX(view.getX());
+					view.setY(view.getY());
+					view.setVisibility(View.VISIBLE);
+					break;
+				case DragEvent.ACTION_DRAG_ENDED:
+					view.setVisibility(View.VISIBLE);
+					
+					break;
+				default:
+					break;
+				}
+				return true;
+			}
 		});
 	}
 
